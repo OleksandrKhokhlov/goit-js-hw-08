@@ -4,7 +4,7 @@ const formRef = document.querySelector('.feedback-form');
 const formInputRef = document.querySelector('form input');
 const formTextarea = document.querySelector('textarea');
 
-const feedbackFormState = {};
+let feedbackFormState = {};
 const STORAGE_KEY = 'feedback-form-state';
 
 formRef.addEventListener('submit', onFormSubmit);
@@ -27,6 +27,11 @@ function onFormSubmit(evt) {
 }
 
 function onFormInput(evt) {
+  const saveDataForm = localStorage.getItem(STORAGE_KEY);
+  if (saveDataForm) {
+    feedbackFormState = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  }
+
   feedbackFormState[evt.target.name] = evt.target.value;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(feedbackFormState));
 }
