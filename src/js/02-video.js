@@ -11,4 +11,6 @@ function onPlayerTimeupdate(data) {
 
 player.on('timeupdate', throttle(onPlayerTimeupdate, 1000));
 
-player.setCurrentTime(currentTime);
+if (currentTime) {
+  player.setCurrentTime(currentTime);
+}

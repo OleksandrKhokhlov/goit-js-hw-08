@@ -17,13 +17,18 @@ function onFormSubmit(evt) {
 
   const saveDataForm = localStorage.getItem(STORAGE_KEY);
 
+  if (formInputRef.value === '' || formTextarea.value === '') {
+    alert('You need to fill in all fields of the form');
+    return;
+  }
+
   if (saveDataForm) {
     const parseSaveDataForm = JSON.parse(saveDataForm);
     console.log(parseSaveDataForm);
+    feedbackFormState = {};
+    localStorage.removeItem(STORAGE_KEY);
+    formRef.reset();
   }
-
-  localStorage.removeItem(STORAGE_KEY);
-  formRef.reset();
 }
 
 function onFormInput(evt) {
@@ -31,7 +36,6 @@ function onFormInput(evt) {
   if (saveDataForm) {
     feedbackFormState = JSON.parse(localStorage.getItem(STORAGE_KEY));
   }
-
   feedbackFormState[evt.target.name] = evt.target.value;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(feedbackFormState));
 }
@@ -42,7 +46,11 @@ function statusCheckStorage() {
   if (saveDataForm) {
     const parseSaveDataForm = JSON.parse(saveDataForm);
 
-    formInputRef.value = parseSaveDataForm.email;
-    formTextarea.value = parseSaveDataForm.message;
+    if (parseSaveDataForm.hasOwnProperty('email')) {
+      formInputRef.value = parseSaveDataForm.email;
+    }
+    if (parseSaveDataForm.hasOwnProperty('message')) {
+      formTextarea.value = parseSaveDataForm.message;
+    }
   }
 }
